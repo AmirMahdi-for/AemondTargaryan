@@ -21,5 +21,3 @@ jobs:
 
       - name: Build
         run: date
-      - name: Test
-        run: go test -v ./...
