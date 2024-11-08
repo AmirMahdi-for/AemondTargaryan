@@ -21,7 +21,7 @@ const (
 )
 
 func Load(print bool) *Config {
-	k := koanf.ew(delimeter)
+	k := koanf.New(delimeter)
 
 	if err := k.Load(confmap.Provider(structs.Map(Default()), delimeter), nil); err != nil {
 		log.Fatalf("error loading default: %s", err)
