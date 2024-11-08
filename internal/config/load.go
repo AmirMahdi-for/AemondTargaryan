@@ -2,14 +2,13 @@ package config
 
 import (
 	"fmt"
-	"log"
-	"strings"
-
 	"github.com/davecgh/go-spew/spew"
 	"github.com/fatih/structs"
 	"github.com/knadh/koanf/providers/confmap"
 	"github.com/knadh/koanf/providers/env"
 	"github.com/knadh/koanf/v2"
+	"log"
+	"strings"
 )
 
 const (
@@ -22,14 +21,12 @@ const (
 )
 
 func Load(print bool) *Config {
-	k := koanf.New(delimeter)
+	k := koanf.ew(delimeter)
 
-	// بارگذاری تنظیمات پیش‌فرض
 	if err := k.Load(confmap.Provider(structs.Map(Default()), delimeter), nil); err != nil {
 		log.Fatalf("error loading default: %s", err)
 	}
 
-	// بارگذاری متغیرهای محیطی
 	if err := loadEnv(k); err != nil {
 		log.Printf("error loading environment variables: %v", err)
 	}
