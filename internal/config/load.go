@@ -34,12 +34,10 @@ func Load(print bool) *Config {
 	config := Config{}
 	var tag = koanf.UnmarshalConf{Tag: tagName}
 
-	// بازگشایی تنظیمات به ساختار Config
 	if err := k.UnmarshalWithConf("", &config, tag); err != nil {
 		log.Fatalf("error unmarshalling config: %v", err)
 	}
 
-	// چاپ تنظیمات در صورت نیاز
 	if print {
 		log.Printf("%s\n%v\n%s", upTemplate, spew.Sdump(config), bottomTemplate)
 	}
@@ -48,13 +46,11 @@ func Load(print bool) *Config {
 }
 
 func loadEnv(k *koanf.Koanf) error {
-	// تابع تبدیل نام متغیرهای محیطی
 	callback := func(source string) string {
 		base := strings.ToLower(strings.TrimPrefix(source, envPrefix))
 		return strings.ReplaceAll(base, delimeter, seperator)
 	}
 
-	// بارگذاری متغیرهای محیطی با استفاده از Provider
 	if err := k.Load(env.Provider(envPrefix, delimeter, callback), nil); err != nil {
 		return fmt.Errorf("error loading environment variables: %s", err)
 	}
