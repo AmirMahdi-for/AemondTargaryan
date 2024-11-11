@@ -4,7 +4,6 @@ COPY . .
 RUN go mod download
 RUN go build -o main .
 
-# مرحله تولید
 FROM alpine:latest
 WORKDIR /root/
 COPY --from=builder /app/main .

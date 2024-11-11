@@ -1,23 +1,28 @@
-
-name: Go
+name: Deploy to Server
 
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
-
-  build:
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Set up Go
-        uses: actions/setup-go@v4
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.7.0
         with:
-          go-version: '1.23'
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Build
-        run: go build -v
+      - name: Deploy to server
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+        run: |
+          ssh -o StrictHostKeyChecking=no $SSH_HOST << 'EOF'
+            cd /path/to/your/project
+            git pull origin main
+            go build -v .
+          EOF
