@@ -28,7 +28,7 @@ jobs:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v0.1.8
         with:
-          host: ${{ secrets.TEST_SERVER_HOST }}
-          key: ${{ secrets.TEST_SERVER_KEY }}
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             sudo bash -c "cd project/back-end/AemondTargarayen && git pull origin dem
